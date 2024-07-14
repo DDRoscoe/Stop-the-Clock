@@ -1,23 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class Rotate : MonoBehaviour
+public class MainHand : MonoBehaviour
 {   
     public Transform pivotPoint;
+    public TextMeshProUGUI scoreText;
     public float rotationSpeed = 50f;
     public GameObject[] numbers;
     public bool correctTiming;
-
+    public bool isRotatingClockwise = true;
+    public bool gameOver;
+    private int score;
     private int randomIndex;
-    private bool isRotatingClockwise = true;
-    private bool gameOver;
 
     // Start is called before the first frame update
     void Start()
     {
+        score = 0;
         randomIndex = Random.Range(2, 8);
-        Debug.Log(randomIndex);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
     }
 
@@ -28,7 +32,7 @@ public class Rotate : MonoBehaviour
         if (pivotPoint != null && gameOver == false)
         {
             float step = rotationSpeed * Time.deltaTime;
-            step *= isRotatingClockwise ? 1 : -1;
+            step *= isRotatingClockwise ? -1 : 1;
             transform.RotateAround(pivotPoint.position, Vector3.forward, step);
         }
 
@@ -39,8 +43,7 @@ public class Rotate : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
         {
-            gameOver = true;
-            Debug.Log("Game Over!");
+            GameOver();
         }
         
 
@@ -48,8 +51,9 @@ public class Rotate : MonoBehaviour
 
     private void ChangeDirection()
     {
+        UpdateScore();
         isRotatingClockwise = !isRotatingClockwise;
-        rotationSpeed += 5f;
+        rotationSpeed += 7f;
         GetNewNumber();
         correctTiming = false;
     }
@@ -80,4 +84,17 @@ public class Rotate : MonoBehaviour
         randomIndex = newNum;
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
     }
+
+    public void UpdateScore()
+    {
+        score++;
+        scoreText.text = "Score: " + score;
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        //Debug.Log("Game Over!");
+    }
 }
+
