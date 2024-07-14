@@ -16,16 +16,15 @@ public class Rotate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        randomIndex = Random.Range(1, 13);
+        randomIndex = Random.Range(2, 8);
         Debug.Log(randomIndex);
+        numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            Debug.Log("pressed");
-            
+
         if (pivotPoint != null && gameOver == false)
         {
             float step = rotationSpeed * Time.deltaTime;
@@ -68,7 +67,17 @@ public class Rotate : MonoBehaviour
 
     private void GetNewNumber()
     {
-        randomIndex = Random.Range(1, 13);
+        int newNum;
 
+        numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.grey;
+
+        do
+        {
+            newNum = Random.Range(0, 11);
+        }
+        while (randomIndex == newNum);
+        
+        randomIndex = newNum;
+        numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
     }
 }
