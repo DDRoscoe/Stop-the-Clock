@@ -45,7 +45,6 @@ public class Timer : MonoBehaviour
             if (timer > 0 && timer < 10)
             {
                 colorChangeInterval = timer < 5 ? 0.25f : 0.5f;
-                Debug.Log(colorTimer);
                 if (colorTimer >= colorChangeInterval)
                 {
                     SwitchColor();

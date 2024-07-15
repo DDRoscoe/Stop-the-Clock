@@ -16,6 +16,7 @@ public class MainHand : MonoBehaviour
     public bool gameOver;
     private int score;
     private int randomIndex;
+    private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class MainHand : MonoBehaviour
         score = 0;
         randomIndex = Random.Range(2, 8);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
+        AudioManager.Instance.LoopSFX("Clock");
     }
 
     // Update is called once per frame
@@ -93,6 +95,7 @@ public class MainHand : MonoBehaviour
 
     public void GameOver()
     {
+        AudioManager.Instance.StopSFX("Clock");
         gameOver = true;
         //Debug.Log("Game Over!");
     }
