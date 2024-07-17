@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
     public TextMeshProUGUI timerText;
     public Transform pivotPoint;
     public float rotationSpeed;
-    public float timer = 30f;
+    public float timer = 60f;
     public float colorChangeInterval;
 
     private float colorTimer = 0f;

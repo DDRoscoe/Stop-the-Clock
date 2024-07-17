@@ -8,23 +8,28 @@ using UnityEngine.UI;
 public class MainHand : MonoBehaviour
 {   
     public Transform pivotPoint;
-    public TextMeshProUGUI scoreText;
-    public float rotationSpeed = 50f;
+    public TextMeshProUGUI comboText;
+    public float rotationSpeed = 60f;
     public GameObject[] numbers;
     public bool correctTiming;
     public bool isRotatingClockwise = true;
     public bool gameOver;
-    private int score;
+    public float score;
+    public int combo;
+    private int multiplier;
     private int randomIndex;
-    private AudioManager audioManager;
+    private ScoreCalculator scoreCalculatorScript;
+    //private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        scoreCalculatorScript = GameObject.Find("Score").GetComponent<ScoreCalculator>();
         score = 0;
+        combo = 0;
         randomIndex = Random.Range(2, 8);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
-        AudioManager.Instance.LoopSFX("Clock");
+        //AudioManager.Instance.LoopSFX("Clock");
     }
 
     // Update is called once per frame
@@ -41,11 +46,14 @@ public class MainHand : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && correctTiming)
         {   
+            rotationSpeed += 7f;
+            UpdateScoreAndCombo();
             ChangeDirection();
         }
         else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
         {
-            GameOver();
+            Reset();
+            ChangeDirection();
         }
         
 
@@ -53,9 +61,7 @@ public class MainHand : MonoBehaviour
 
     private void ChangeDirection()
     {
-        UpdateScore();
         isRotatingClockwise = !isRotatingClockwise;
-        rotationSpeed += 7f;
         GetNewNumber();
         correctTiming = false;
     }
@@ -87,15 +93,23 @@ public class MainHand : MonoBehaviour
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
     }
 
-    public void UpdateScore()
+    public void UpdateScoreAndCombo()
     {
-        score++;
-        scoreText.text = "Score: " + score;
+        combo++;
+        score = scoreCalculatorScript.CalculateScore(score, combo);
+        comboText.text = "Combo: " + combo;
+    }
+
+    public void Reset()
+    {
+        combo = 0;
+        comboText.text = "Combo: " + combo;
+        rotationSpeed = 60f;
     }
 
     public void GameOver()
     {
-        AudioManager.Instance.StopSFX("Clock");
+        //AudioManager.Instance.StopSFX("Clock");
         gameOver = true;
         //Debug.Log("Game Over!");
     }
