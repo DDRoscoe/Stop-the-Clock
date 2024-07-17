@@ -18,6 +18,7 @@ public class MainHand : MonoBehaviour
     public int combo;
     private int multiplier;
     private int randomIndex;
+
     private ScoreCalculator scoreCalculatorScript;
     //private AudioManager audioManager;
 
