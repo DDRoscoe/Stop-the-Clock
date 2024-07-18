@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: UIViewIdDatabase
   m_EditorClassIdentifier: 
   Database:
-    Items: []
+    Items:
+    - Category: None
+      Name: None
+    - Category: One
+      Name: Game
+    - Category: One
+      Name: MainMenu
+    - Category: One
+      Name: Settings

@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: UIButtonIdDatabase
   m_EditorClassIdentifier: 
   Database:
-    Items: []
+    Items:
+    - Category: None
+      Name: None
+    - Category: One
+      Name: Back
+    - Category: One
+      Name: Play
+    - Category: One
+      Name: Settings
