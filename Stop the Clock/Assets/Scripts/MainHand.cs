@@ -51,7 +51,7 @@ public class MainHand : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space) && correctTiming)
             {   
-                rotationSpeed += 7f;
+                rotationSpeed += 10f;
                 UpdateScoreAndCombo();
                 ChangeDirection();
             }
@@ -110,7 +110,7 @@ public class MainHand : MonoBehaviour
     {
         combo = 0;
         comboText.text = "Combo: " + combo;
-        rotationSpeed = 60f;
+        rotationSpeed = 75f;
     }
 
 
@@ -119,13 +119,11 @@ public class MainHand : MonoBehaviour
         int countdownTime = 3;
         while(countdownTime > 0)
         {
+            countdownText.text = countdownTime.ToString();
             yield return new WaitForSeconds(1f);
             countdownTime--;
-            Debug.Log(countdownTime);
-            countdownText.text = countdownTime.ToString();
         }
 
-        yield return new WaitForSeconds(1f);
         countdownText.gameObject.SetActive(false);
         gameStart = true;
     }
