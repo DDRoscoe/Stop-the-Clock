@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainHand : MonoBehaviour
 {   
     public Transform pivotPoint;
     public TextMeshProUGUI comboText;
+    public TextMeshProUGUI countdownText;
     public float rotationSpeed = 60f;
     public GameObject[] numbers;
     public bool correctTiming;
     public bool isRotatingClockwise = true;
+    public bool gameStart = false;
     public bool gameOver;
     public float score;
     public int combo;
+
     private int multiplier;
     private int randomIndex;
 
@@ -30,31 +32,34 @@ public class MainHand : MonoBehaviour
         combo = 0;
         randomIndex = Random.Range(2, 8);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
+        StartCoroutine(CountdownToStart());
         //AudioManager.Instance.LoopSFX("Clock");
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (pivotPoint != null && gameOver == false)
+        if (gameStart && gameOver == false) 
         {
-            float step = rotationSpeed * Time.deltaTime;
-            step *= isRotatingClockwise ? -1 : 1;
-            transform.RotateAround(pivotPoint.position, Vector3.forward, step);
-        }
+            if (pivotPoint != null)
+            {
+                float step = rotationSpeed * Time.deltaTime;
+                step *= isRotatingClockwise ? -1 : 1;
+                transform.RotateAround(pivotPoint.position, Vector3.forward, step);
+            }
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && correctTiming)
-        {   
-            rotationSpeed += 7f;
-            UpdateScoreAndCombo();
-            ChangeDirection();
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
-        {
-            Reset();
-            ChangeDirection();
+            if (Input.GetKeyDown(KeyCode.Space) && correctTiming)
+            {   
+                rotationSpeed += 7f;
+                UpdateScoreAndCombo();
+                ChangeDirection();
+            }
+            else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
+            {
+                Reset();
+                ChangeDirection();
+            }
         }
         
 
@@ -106,6 +111,23 @@ public class MainHand : MonoBehaviour
         combo = 0;
         comboText.text = "Combo: " + combo;
         rotationSpeed = 60f;
+    }
+
+
+    IEnumerator CountdownToStart()
+    {
+        int countdownTime = 3;
+        while(countdownTime > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            countdownTime--;
+            Debug.Log(countdownTime);
+            countdownText.text = countdownTime.ToString();
+        }
+
+        yield return new WaitForSeconds(1f);
+        countdownText.gameObject.SetActive(false);
+        gameStart = true;
     }
 
     public void GameOver()

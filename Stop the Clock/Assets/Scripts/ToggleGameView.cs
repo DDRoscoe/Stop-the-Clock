@@ -7,12 +7,6 @@ using UnityEngine;
 public class ToggleGameView : MonoBehaviour
 {
     public GameObject gameView;
-    //public UIButoon playButton;
-
-    private void OnPressed()
-    {
-
-    }
 
     public void EnableView()
     {
