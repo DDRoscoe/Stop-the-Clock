@@ -19,6 +19,10 @@ MonoBehaviour:
     - Category: One
       Name: Back
     - Category: One
+      Name: MainMenu
+    - Category: One
       Name: Play
+    - Category: One
+      Name: Retry
     - Category: One
       Name: Settings

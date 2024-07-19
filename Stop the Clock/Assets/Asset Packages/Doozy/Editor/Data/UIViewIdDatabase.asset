@@ -19,6 +19,8 @@ MonoBehaviour:
     - Category: One
       Name: Game
     - Category: One
+      Name: GameOver
+    - Category: One
       Name: MainMenu
     - Category: One
       Name: Settings

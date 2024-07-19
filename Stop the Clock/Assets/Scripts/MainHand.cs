@@ -22,18 +22,12 @@ public class MainHand : MonoBehaviour
     private int randomIndex;
 
     private ScoreCalculator scoreCalculatorScript;
-    //private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Start()
     {
         scoreCalculatorScript = GameObject.Find("Score").GetComponent<ScoreCalculator>();
-        score = 0;
-        combo = 0;
-        randomIndex = Random.Range(2, 8);
-        numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
-        StartCoroutine(CountdownToStart());
-        //AudioManager.Instance.LoopSFX("Clock");
+        InitializeValues();
     }
 
     // Update is called once per frame
@@ -61,8 +55,16 @@ public class MainHand : MonoBehaviour
                 ChangeDirection();
             }
         }
-        
+    }
 
+    public void InitializeValues()
+    {
+        //scoreCalculatorScript = GameObject.Find("Score").GetComponent<ScoreCalculator>();
+        score = 0;
+        combo = 0;
+        randomIndex = Random.Range(2, 8);
+        numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
+        StartCoroutine(CountdownToStart());
     }
 
     private void ChangeDirection()
@@ -132,7 +134,8 @@ public class MainHand : MonoBehaviour
     {
         //AudioManager.Instance.StopSFX("Clock");
         gameOver = true;
-        //Debug.Log("Game Over!");
+        gameStart = false;
+        gameObject.SetActive(false);
     }
 }
 

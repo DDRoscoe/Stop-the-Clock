@@ -7,6 +7,12 @@ using UnityEngine;
 public class ToggleGameView : MonoBehaviour
 {
     public GameObject gameView;
+    public MainHand mainHandScript;
+
+    void Start()
+    {
+        mainHandScript = GameObject.Find("Main Hand Body").GetComponent<MainHand>();
+    }
 
     public void EnableView()
     {
@@ -22,5 +28,12 @@ public class ToggleGameView : MonoBehaviour
         {
             gameView.SetActive(false);
         }
+    }
+
+    public void ResetView()
+    {
+        mainHandScript.gameOver = false;
+        EnableView();
+        mainHandScript.InitializeValues();
     }
 }
