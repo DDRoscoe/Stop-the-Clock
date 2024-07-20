@@ -79,8 +79,8 @@ public class MainHand : MonoBehaviour
         gameStart = false;
         isRotatingClockwise = true;
         gameOver = false;
-        randomIndex = Random.Range(2, 8);
-        numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
+        // randomIndex = Random.Range(2, 8);
+        // numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
     }
 
     public void ResetCircles()
@@ -104,6 +104,8 @@ public class MainHand : MonoBehaviour
 
         countdownText.gameObject.SetActive(false);
         timerScript.timerText.gameObject.SetActive(true);
+        randomIndex = Random.Range(2, 8);
+        numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
         gameStart = true;
     }
 
