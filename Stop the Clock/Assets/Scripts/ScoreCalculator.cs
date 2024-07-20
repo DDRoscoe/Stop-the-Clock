@@ -6,6 +6,7 @@ using TMPro;
 public class ScoreCalculator : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI comboText;
     
     // Update is called once per frame
     void Update()
@@ -16,12 +17,13 @@ public class ScoreCalculator : MonoBehaviour
     public float CalculateScore(float score, int combo)
     {
         score += 1000 + (combo * 25 * (combo * 0.5f));
-        UpdateScoreText(score, combo);
+        UpdateScoreAndComboText(score, combo);
         return score;
     }
 
-    private void UpdateScoreText(float score, int combo)
+    public void UpdateScoreAndComboText(float score, int combo)
     {
         scoreText.text = score.ToString("0000000");
+        comboText.text = "Combo: " + combo;
     }
 }

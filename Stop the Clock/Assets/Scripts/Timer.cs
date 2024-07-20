@@ -29,32 +29,29 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mainHandScript.gameStart)
+        if (mainHandScript.gameStart && mainHandScript.gameOver == false)
         {
-            timerText.gameObject.SetActive(true);
-            if (mainHandScript.gameOver == false)
+            if (pivotPoint != null)
             {
-                if (pivotPoint != null)
-                {
-                    float step = rotationSpeed * Time.deltaTime;
-                    transform.RotateAround(pivotPoint.position, Vector3.forward, -step);
-                    timer -= Time.deltaTime;
-                    intTimer = (int)timer;
-                    timerText.text = intTimer.ToString();
-                }
+                float step = rotationSpeed * Time.deltaTime;
+                transform.RotateAround(pivotPoint.position, Vector3.forward, -step);
+                timer -= Time.deltaTime;
+                intTimer = (int)timer;
+                timerText.text = intTimer.ToString();
+            }
 
-                colorTimer += Time.deltaTime;
+            colorTimer += Time.deltaTime;
 
-                if (timer > 0 && timer < 10)
+            if (timer > 0 && timer < 10)
+            {
+                colorChangeInterval = timer < 5 ? 0.25f : 0.5f;
+                if (colorTimer >= colorChangeInterval)
                 {
-                    colorChangeInterval = timer < 5 ? 0.25f : 0.5f;
-                    if (colorTimer >= colorChangeInterval)
-                    {
-                        SwitchColor();
-                        colorTimer = 0f;
-                    }
+                    SwitchColor();
+                    colorTimer = 0f;
                 }
             }
+        
         }
 
         if (timer < 0)

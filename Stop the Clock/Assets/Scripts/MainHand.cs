@@ -9,7 +9,7 @@ public class MainHand : MonoBehaviour
     public Transform pivotPoint;
     public TextMeshProUGUI comboText;
     public TextMeshProUGUI countdownText;
-    public float rotationSpeed = 60f;
+    public float rotationSpeed = 75f;
     public GameObject[] numbers;
     public bool correctTiming;
     public bool isRotatingClockwise = true;
@@ -17,6 +17,9 @@ public class MainHand : MonoBehaviour
     public bool gameOver;
     public float score;
     public int combo;
+    public GameObject clock;
+    public Animator clockSpawnAnim;
+    public Timer timerScript;
 
     private int multiplier;
     private int randomIndex;
@@ -26,8 +29,9 @@ public class MainHand : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timerScript = GameObject.Find("Square").GetComponent<Timer>();
+        clockSpawnAnim = clock.GetComponent<Animator>();
         scoreCalculatorScript = GameObject.Find("Score").GetComponent<ScoreCalculator>();
-        InitializeValues();
     }
 
     // Update is called once per frame
@@ -51,20 +55,56 @@ public class MainHand : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
             {
-                Reset();
+                ComboBreak();
                 ChangeDirection();
             }
         }
     }
 
+    public void PressedBegin()
+    {
+        clockSpawnAnim.SetTrigger("Play");
+        InitializeValues();
+        StartCoroutine(CountdownToStart());
+    }
+
     public void InitializeValues()
     {
-        //scoreCalculatorScript = GameObject.Find("Score").GetComponent<ScoreCalculator>();
+        countdownText.gameObject.SetActive(true);
+        timerScript.timer = 60f;
+        rotationSpeed = 75f;
         score = 0;
         combo = 0;
+        scoreCalculatorScript.UpdateScoreAndComboText(score, combo);
+        gameStart = false;
+        isRotatingClockwise = true;
+        gameOver = false;
         randomIndex = Random.Range(2, 8);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
-        StartCoroutine(CountdownToStart());
+    }
+
+    public void ResetCircles()
+    {
+        for (int i = 0; i < 12; i++)
+        {
+            numbers[i].GetComponent<SpriteRenderer>().color = Color.grey;
+        }
+    }
+
+
+    IEnumerator CountdownToStart()
+    {
+        int countdownTime = 3;
+        while(countdownTime > 0)
+        {
+            countdownText.text = countdownTime.ToString();
+            yield return new WaitForSeconds(1f);
+            countdownTime--;
+        }
+
+        countdownText.gameObject.SetActive(false);
+        timerScript.timerText.gameObject.SetActive(true);
+        gameStart = true;
     }
 
     private void ChangeDirection()
@@ -105,37 +145,21 @@ public class MainHand : MonoBehaviour
     {
         combo++;
         score = scoreCalculatorScript.CalculateScore(score, combo);
-        comboText.text = "Combo: " + combo;
     }
 
-    public void Reset()
+    public void ComboBreak()
     {
         combo = 0;
-        comboText.text = "Combo: " + combo;
+        scoreCalculatorScript.UpdateScoreAndComboText(score, combo);
         rotationSpeed = 75f;
-    }
-
-
-    IEnumerator CountdownToStart()
-    {
-        int countdownTime = 3;
-        while(countdownTime > 0)
-        {
-            countdownText.text = countdownTime.ToString();
-            yield return new WaitForSeconds(1f);
-            countdownTime--;
-        }
-
-        countdownText.gameObject.SetActive(false);
-        gameStart = true;
     }
 
     public void GameOver()
     {
-        //AudioManager.Instance.StopSFX("Clock");
+        timerScript.timerText.gameObject.SetActive(false);
+        ResetCircles();
         gameOver = true;
         gameStart = false;
-        gameObject.SetActive(false);
     }
 }
 
