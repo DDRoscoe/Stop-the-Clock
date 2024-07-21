@@ -18,6 +18,7 @@ public class MainHand : MonoBehaviour
     public float score;
     public int combo;
     public GameObject clock;
+    public GameObject cover;
     public Animator clockSpawnAnim;
     public Timer timerScript;
 
@@ -79,6 +80,7 @@ public class MainHand : MonoBehaviour
 
     public void InitializeValues()
     {
+        cover.SetActive(false);
         countdownText.gameObject.SetActive(true);
         timerScript.timer = 60f;
         rotationSpeed = 75f;
@@ -172,6 +174,7 @@ public class MainHand : MonoBehaviour
     public void GameOver()
     {
         timerScript.timerText.gameObject.SetActive(false);
+        cover.SetActive(true);
         ResetCircles();
         gameOver = true;
         gameStart = false;
