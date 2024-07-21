@@ -6,73 +6,30 @@ using System;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
+    [Header("---------- Audio Source ----------")]
+    [SerializeField] AudioSource musicSource;
+    [SerializeField] AudioSource sfxSource;
 
-    public AudioSource musicSource, sfxSource;
-    public Sound[] musicClips, sfxClips;
+    [Header("---------- Audio Clip ----------")]
+    public AudioClip background;
+    public AudioClip hoverButton;
+    public AudioClip buttonClick;
+    public AudioClip playButtonClick;
+    public AudioClip coin;
+    public AudioClip comboBreak;
+    public AudioClip ticking;
+    public AudioClip countdown;
+    public AudioClip begin;
 
-    private void Awake()
+
+    private void Start()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        musicSource.clip = background;
+        musicSource.Play();
     }
 
-    public void PlayMusic(string name)
+    public void PlaySFX(AudioClip clip)
     {
-        Sound s = Array.Find(musicClips, x=> x.name == name);
-
-        if (s == null)
-            Debug.Log("music not found");
-        else
-            musicSource.Play();
-
-    }
-
-    public void PlaySFX(string name)
-    {
-        Sound s = Array.Find(sfxClips, x=> x.name == name);
-
-        if (s == null)
-            Debug.Log("sfx not found");
-        else
-            sfxSource.PlayOneShot(s.clip);
-        
-    }
-
-    public void LoopSFX(string name)
-    {
-        Sound s = Array.Find(sfxClips, x=> x.name == name);
-
-        if (s == null)
-            Debug.Log("sfx not found");
-        else
-        {
-            sfxSource.loop = true;
-            sfxSource.Play();
-        }
-        
-    }
-
-    public void StopSFX(string name)
-    {
-        Sound s = Array.Find(sfxClips, x=> x.name == name);
-
-        if (s == null)
-            Debug.Log("sfx not found");
-        else
-            sfxSource.Stop();
-        
-    }
-
-    public void StopMusic()
-    {
-        musicSource.Stop();
+        sfxSource.PlayOneShot(clip);
     }
 }

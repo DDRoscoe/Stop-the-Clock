@@ -24,7 +24,13 @@ public class MainHand : MonoBehaviour
     private int multiplier;
     private int randomIndex;
 
+    private AudioManager audioManagerScript;
     private ScoreCalculator scoreCalculatorScript;
+
+    private void Awake()
+    {
+        audioManagerScript = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -52,11 +58,14 @@ public class MainHand : MonoBehaviour
                 rotationSpeed += 10f;
                 UpdateScoreAndCombo();
                 ChangeDirection();
+                audioManagerScript.PlaySFX(audioManagerScript.coin);
+
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
             {
                 ComboBreak();
                 ChangeDirection();
+                audioManagerScript.PlaySFX(audioManagerScript.comboBreak);
             }
         }
     }
@@ -79,8 +88,6 @@ public class MainHand : MonoBehaviour
         gameStart = false;
         isRotatingClockwise = true;
         gameOver = false;
-        // randomIndex = Random.Range(2, 8);
-        // numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
     }
 
     public void ResetCircles()
@@ -94,12 +101,17 @@ public class MainHand : MonoBehaviour
 
     IEnumerator CountdownToStart()
     {
+        audioManagerScript.PlaySFX(audioManagerScript.countdown);
         int countdownTime = 3;
         while(countdownTime > 0)
         {
             countdownText.text = countdownTime.ToString();
             yield return new WaitForSeconds(1f);
+            if (countdownTime > 1)
+                audioManagerScript.PlaySFX(audioManagerScript.countdown);
             countdownTime--;
+            if (countdownTime == 0)
+                audioManagerScript.PlaySFX(audioManagerScript.begin);
         }
 
         countdownText.gameObject.SetActive(false);
@@ -107,6 +119,7 @@ public class MainHand : MonoBehaviour
         randomIndex = Random.Range(2, 8);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
         gameStart = true;
+        audioManagerScript.PlaySFX(audioManagerScript.ticking);
     }
 
     private void ChangeDirection()
