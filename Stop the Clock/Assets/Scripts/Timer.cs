@@ -76,7 +76,7 @@ public class Timer : MonoBehaviour
     {
         timesUpText.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
-        //mainHandScript.cover.gameObject.SetActive(true);
+        mainHandScript.cover.gameObject.SetActive(true);
         timesUpText.gameObject.SetActive(false);
     }
 }

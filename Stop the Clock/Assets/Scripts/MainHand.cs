@@ -82,7 +82,7 @@ public class MainHand : MonoBehaviour
     {
         cover.SetActive(false);
         countdownText.gameObject.SetActive(true);
-        timerScript.timer = 60f;
+        //timerScript.timer = 60f;
         rotationSpeed = 75f;
         score = 0;
         combo = 0;
@@ -173,7 +173,8 @@ public class MainHand : MonoBehaviour
 
     public void GameOver()
     {
-        cover.SetActive(true);
+        timerScript.timer = 60f;
+        //cover.SetActive(true);
         timerScript.timerText.gameObject.SetActive(false);
         ResetCircles();
         gameOver = true;
