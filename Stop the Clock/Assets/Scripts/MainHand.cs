@@ -173,8 +173,8 @@ public class MainHand : MonoBehaviour
 
     public void GameOver()
     {
-        timerScript.timerText.gameObject.SetActive(false);
         cover.SetActive(true);
+        timerScript.timerText.gameObject.SetActive(false);
         ResetCircles();
         gameOver = true;
         gameStart = false;

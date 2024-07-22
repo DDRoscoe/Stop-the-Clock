@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI timesUpText;
     public Transform pivotPoint;
     public float rotationSpeed;
     public float timer = 60f;
@@ -56,11 +57,12 @@ public class Timer : MonoBehaviour
 
         if (timer < 0)
         {
+            StartCoroutine(DisplayTimesUp());
             mainHandScript.GameOver();
         }
     }
 
-    void SwitchColor()
+    public void SwitchColor()
     {
         if (isColor1Active)
             timerText.color = Color.red;
@@ -68,5 +70,13 @@ public class Timer : MonoBehaviour
             timerText.color = Color.white;
         
         isColor1Active = !isColor1Active;
+    }
+
+    IEnumerator DisplayTimesUp()
+    {
+        timesUpText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        //mainHandScript.cover.gameObject.SetActive(true);
+        timesUpText.gameObject.SetActive(false);
     }
 }
