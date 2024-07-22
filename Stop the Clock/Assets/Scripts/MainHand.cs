@@ -118,7 +118,7 @@ public class MainHand : MonoBehaviour
 
         countdownText.gameObject.SetActive(false);
         timerScript.timerText.gameObject.SetActive(true);
-        randomIndex = Random.Range(2, 8);
+        randomIndex = Random.Range(0, 11);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
         gameStart = true;
         audioManagerScript.PlaySFX(audioManagerScript.ticking);
@@ -178,6 +178,11 @@ public class MainHand : MonoBehaviour
         ResetCircles();
         gameOver = true;
         gameStart = false;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
 

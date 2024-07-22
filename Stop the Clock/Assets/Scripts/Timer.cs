@@ -43,7 +43,7 @@ public class Timer : MonoBehaviour
 
             colorTimer += Time.deltaTime;
 
-            if (timer > 0 && timer < 10)
+            if (timer < 10)
             {
                 colorChangeInterval = timer < 5 ? 0.25f : 0.5f;
                 if (colorTimer >= colorChangeInterval)
