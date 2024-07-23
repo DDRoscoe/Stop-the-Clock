@@ -17,6 +17,7 @@ public class MainHand : MonoBehaviour
     public int highestCombo;
     public float rotationSpeed = 75f;
     public float score;
+    public float emissionRate = 3f;
     public bool correctTiming;
     public bool isRotatingClockwise = true;
     public bool gameStart = false;
@@ -26,6 +27,8 @@ public class MainHand : MonoBehaviour
     public GameObject cover;
     public Animator clockSpawnAnim;
     public Animator comboAnim;
+    public ParticleSystem particleSystem;
+    private ParticleSystem.EmissionModule emissionModule;
 
     private int multiplier;
     private int randomIndex;
@@ -46,6 +49,7 @@ public class MainHand : MonoBehaviour
         clockSpawnAnim = clock.GetComponent<Animator>();
         comboAnim = comboText.GetComponent<Animator>();
         scoreCalculatorScript = GameObject.Find("Score").GetComponent<ScoreCalculator>();
+        emissionModule = particleSystem.emission;
     }
 
     // Update is called once per frame
@@ -68,7 +72,8 @@ public class MainHand : MonoBehaviour
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.coin);
                 audioManagerScript.tickingSource.pitch += 0.03f;
-
+                emissionRate += 2f;
+                emissionModule.rateOverTime = emissionRate;
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
             {
@@ -76,6 +81,8 @@ public class MainHand : MonoBehaviour
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.comboBreak);
                 audioManagerScript.tickingSource.pitch = 1.0f;
+                emissionRate = 3f;
+                particleSystem.Stop();
                 comboAnim.SetTrigger("ComboPlay");
             }
         }
@@ -90,6 +97,7 @@ public class MainHand : MonoBehaviour
 
     public void InitializeValues()
     {
+        emissionRate = 3f;
         highestComboValueText.gameObject.SetActive(false);
         highestComboText.gameObject.SetActive(false);
         finalScoreValueText.gameObject.SetActive(false);
@@ -179,6 +187,8 @@ public class MainHand : MonoBehaviour
         score = scoreCalculatorScript.CalculateScore(score, combo);
         if (highestCombo < combo)
             highestCombo = combo;
+        if (combo == 4)
+            particleSystem.Play();
     }
 
     public void ComboBreak()
