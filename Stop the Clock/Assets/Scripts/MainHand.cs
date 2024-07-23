@@ -20,11 +20,11 @@ public class MainHand : MonoBehaviour
     public GameObject clock;
     public GameObject cover;
     public Animator clockSpawnAnim;
-    public Timer timerScript;
 
     private int multiplier;
     private int randomIndex;
 
+    public Timer timerScript;
     private AudioManager audioManagerScript;
     private ScoreCalculator scoreCalculatorScript;
 
@@ -60,6 +60,7 @@ public class MainHand : MonoBehaviour
                 UpdateScoreAndCombo();
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.coin);
+                audioManagerScript.tickingSource.pitch += 0.04f;
 
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
@@ -67,6 +68,7 @@ public class MainHand : MonoBehaviour
                 ComboBreak();
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.comboBreak);
+                audioManagerScript.tickingSource.pitch = 1.0f;
             }
         }
     }
@@ -80,6 +82,7 @@ public class MainHand : MonoBehaviour
 
     public void InitializeValues()
     {
+        audioManagerScript.tickingSource.pitch = 1.0f;
         cover.SetActive(false);
         countdownText.gameObject.SetActive(true);
         //timerScript.timer = 60f;
@@ -121,7 +124,7 @@ public class MainHand : MonoBehaviour
         randomIndex = Random.Range(0, 11);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
         gameStart = true;
-        audioManagerScript.PlaySFX(audioManagerScript.ticking);
+        audioManagerScript.PlayTicking();
     }
 
     private void ChangeDirection()
@@ -173,6 +176,7 @@ public class MainHand : MonoBehaviour
 
     public void GameOver()
     {
+        audioManagerScript.StopTicking();
         timerScript.timer = 60f;
         //cover.SetActive(true);
         timerScript.timerText.gameObject.SetActive(false);

@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour
     [Header("---------- Audio Source ----------")]
     [SerializeField] AudioSource musicSource;
     [SerializeField] AudioSource sfxSource;
+    [SerializeField] public AudioSource tickingSource;
+
 
     [Header("---------- Audio Clip ----------")]
     public AudioClip background;
@@ -20,6 +22,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip ticking;
     public AudioClip countdown;
     public AudioClip begin;
+    public AudioClip timesAlmostUp;
+    public AudioClip timesUp;
 
 
     private void Start()
@@ -31,5 +35,15 @@ public class AudioManager : MonoBehaviour
     public void PlaySFX(AudioClip clip)
     {
         sfxSource.PlayOneShot(clip);
+    }
+
+    public void PlayTicking()
+    {
+        tickingSource.Play();
+    }
+
+    public void StopTicking()
+    {
+        tickingSource.Stop();
     }
 }
