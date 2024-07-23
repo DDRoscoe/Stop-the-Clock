@@ -17,7 +17,7 @@ public class MainHand : MonoBehaviour
     public int highestCombo;
     public float rotationSpeed = 75f;
     public float score;
-    public float emissionRate = 3f;
+    public float emissionRate = 2f;
     public bool correctTiming;
     public bool isRotatingClockwise = true;
     public bool gameStart = false;
@@ -72,7 +72,7 @@ public class MainHand : MonoBehaviour
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.coin);
                 audioManagerScript.tickingSource.pitch += 0.03f;
-                emissionRate += 2f;
+                emissionRate += 1f;
                 emissionModule.rateOverTime = emissionRate;
                 comboAnim.SetTrigger("ComboHit");
             }
@@ -82,7 +82,7 @@ public class MainHand : MonoBehaviour
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.comboBreak);
                 audioManagerScript.tickingSource.pitch = 1.0f;
-                emissionRate = 3f;
+                emissionRate = 2f;
                 particleSystem.Stop();
                 comboAnim.SetTrigger("ComboMiss");
             }
@@ -98,7 +98,7 @@ public class MainHand : MonoBehaviour
 
     public void InitializeValues()
     {
-        emissionRate = 3f;
+        emissionRate = 2f;
         highestComboValueText.gameObject.SetActive(false);
         highestComboText.gameObject.SetActive(false);
         finalScoreValueText.gameObject.SetActive(false);
