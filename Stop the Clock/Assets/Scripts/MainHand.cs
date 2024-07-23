@@ -46,10 +46,10 @@ public class MainHand : MonoBehaviour
     void Start()
     {
         timerScript = GameObject.Find("Square").GetComponent<Timer>();
-        clockSpawnAnim = clock.GetComponent<Animator>();
-        comboAnim = comboText.GetComponent<Animator>();
         scoreCalculatorScript = GameObject.Find("Score").GetComponent<ScoreCalculator>();
         emissionModule = particleSystem.emission;
+        clockSpawnAnim = GameObject.Find("Clock").GetComponent<Animator>();
+        comboAnim = comboText.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -74,6 +74,7 @@ public class MainHand : MonoBehaviour
                 audioManagerScript.tickingSource.pitch += 0.03f;
                 emissionRate += 2f;
                 emissionModule.rateOverTime = emissionRate;
+                comboAnim.SetTrigger("ComboHit");
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
             {
@@ -83,14 +84,14 @@ public class MainHand : MonoBehaviour
                 audioManagerScript.tickingSource.pitch = 1.0f;
                 emissionRate = 3f;
                 particleSystem.Stop();
-                comboAnim.SetTrigger("ComboPlay");
+                comboAnim.SetTrigger("ComboMiss");
             }
         }
     }
 
     public void PressedBegin()
     {
-        clockSpawnAnim.SetTrigger("Play");
+        clockSpawnAnim.SetTrigger("ClockSpawn");
         InitializeValues();
         StartCoroutine(CountdownToStart());
     }
@@ -126,6 +127,7 @@ public class MainHand : MonoBehaviour
 
     IEnumerator CountdownToStart()
     {
+        timerScript.timerText.text = timerScript.timer.ToString();
         audioManagerScript.PlaySFX(audioManagerScript.countdown);
         int countdownTime = 3;
         while(countdownTime > 0)
@@ -140,7 +142,6 @@ public class MainHand : MonoBehaviour
         }
 
         countdownText.gameObject.SetActive(false);
-        timerScript.timerText.gameObject.SetActive(true);
         randomIndex = Random.Range(0, 11);
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.yellow;
         gameStart = true;
@@ -168,9 +169,7 @@ public class MainHand : MonoBehaviour
     private void GetNewNumber()
     {
         int newNum;
-
         numbers[randomIndex].GetComponent<SpriteRenderer>().color = Color.grey;
-
         do
         {
             newNum = Random.Range(0, 11);
@@ -202,7 +201,7 @@ public class MainHand : MonoBehaviour
     {
         audioManagerScript.StopTicking();
         timerScript.timer = 60f;
-        timerScript.timerText.gameObject.SetActive(false);
+        //timerScript.timerText.gameObject.SetActive(false);
         particleSystem.Stop();
         DisplayComboAndScores();
         ResetCircles();

@@ -10,6 +10,7 @@ public class Timer : MonoBehaviour
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI timesUpText;
     public Transform pivotPoint;
+    public int intTimer;
     public float rotationSpeed;
     public float timer = 60f;
     public float colorChangeInterval;
@@ -17,7 +18,6 @@ public class Timer : MonoBehaviour
 
     private float colorTimer = 0f;
     private float timesAlmostUpTimer = 0f;
-    private int intTimer;
     private bool isColor1Active;
 
     private MainHand mainHandScript;
