@@ -59,7 +59,7 @@ public class Timer : MonoBehaviour
                 }
             }
 
-            if (timer < 6)
+            if (timer < 11)
             {
                 if (timesAlmostUpTimer >= 1f)
                 {

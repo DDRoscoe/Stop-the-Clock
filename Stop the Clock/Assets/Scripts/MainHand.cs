@@ -203,6 +203,7 @@ public class MainHand : MonoBehaviour
         audioManagerScript.StopTicking();
         timerScript.timer = 60f;
         timerScript.timerText.gameObject.SetActive(false);
+        particleSystem.Stop();
         DisplayComboAndScores();
         ResetCircles();
 
