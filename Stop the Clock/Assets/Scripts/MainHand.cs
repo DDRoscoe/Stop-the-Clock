@@ -9,17 +9,23 @@ public class MainHand : MonoBehaviour
     public Transform pivotPoint;
     public TextMeshProUGUI comboText;
     public TextMeshProUGUI countdownText;
+    public TextMeshProUGUI highestComboText;
+    public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI highestComboValueText;
+    public TextMeshProUGUI finalScoreValueText;
+    public int combo;
+    public int highestCombo;
     public float rotationSpeed = 75f;
-    public GameObject[] numbers;
+    public float score;
     public bool correctTiming;
     public bool isRotatingClockwise = true;
     public bool gameStart = false;
     public bool gameOver;
-    public float score;
-    public int combo;
+    public GameObject[] numbers;
     public GameObject clock;
     public GameObject cover;
     public Animator clockSpawnAnim;
+    public Animator comboAnim;
 
     private int multiplier;
     private int randomIndex;
@@ -38,6 +44,7 @@ public class MainHand : MonoBehaviour
     {
         timerScript = GameObject.Find("Square").GetComponent<Timer>();
         clockSpawnAnim = clock.GetComponent<Animator>();
+        comboAnim = comboText.GetComponent<Animator>();
         scoreCalculatorScript = GameObject.Find("Score").GetComponent<ScoreCalculator>();
     }
 
@@ -60,7 +67,7 @@ public class MainHand : MonoBehaviour
                 UpdateScoreAndCombo();
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.coin);
-                audioManagerScript.tickingSource.pitch += 0.04f;
+                audioManagerScript.tickingSource.pitch += 0.03f;
 
             }
             else if (Input.GetKeyDown(KeyCode.Space) && !correctTiming)
@@ -69,6 +76,7 @@ public class MainHand : MonoBehaviour
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.comboBreak);
                 audioManagerScript.tickingSource.pitch = 1.0f;
+                comboAnim.SetTrigger("ComboPlay");
             }
         }
     }
@@ -82,13 +90,17 @@ public class MainHand : MonoBehaviour
 
     public void InitializeValues()
     {
+        highestComboValueText.gameObject.SetActive(false);
+        highestComboText.gameObject.SetActive(false);
+        finalScoreValueText.gameObject.SetActive(false);
+        finalScoreText.gameObject.SetActive(false);
         audioManagerScript.tickingSource.pitch = 1.0f;
         cover.SetActive(false);
         countdownText.gameObject.SetActive(true);
-        //timerScript.timer = 60f;
         rotationSpeed = 75f;
         score = 0;
         combo = 0;
+        highestCombo = 0;
         scoreCalculatorScript.UpdateScoreAndComboText(score, combo);
         gameStart = false;
         isRotatingClockwise = true;
@@ -165,6 +177,8 @@ public class MainHand : MonoBehaviour
     {
         combo++;
         score = scoreCalculatorScript.CalculateScore(score, combo);
+        if (highestCombo < combo)
+            highestCombo = combo;
     }
 
     public void ComboBreak()
@@ -178,11 +192,23 @@ public class MainHand : MonoBehaviour
     {
         audioManagerScript.StopTicking();
         timerScript.timer = 60f;
-        //cover.SetActive(true);
         timerScript.timerText.gameObject.SetActive(false);
+        DisplayComboAndScores();
         ResetCircles();
+
         gameOver = true;
         gameStart = false;
+    }
+
+    public void DisplayComboAndScores()
+    {
+        int intScore = (int)score;
+        highestComboValueText.text = highestCombo.ToString();
+        highestComboValueText.gameObject.SetActive(true);
+        highestComboText.gameObject.SetActive(true);
+        finalScoreValueText.text = intScore.ToString();
+        finalScoreValueText.gameObject.SetActive(true);
+        finalScoreText.gameObject.SetActive(true);
     }
 
     public void ExitGame()
