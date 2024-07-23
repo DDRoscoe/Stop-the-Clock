@@ -21,6 +21,8 @@ MonoBehaviour:
     - Category: One
       Name: GameOver
     - Category: One
+      Name: Logo
+    - Category: One
       Name: MainMenu
     - Category: One
       Name: Settings

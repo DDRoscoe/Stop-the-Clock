@@ -28,6 +28,7 @@ namespace Doozy.Runtime.UIManager
         {
             Game,
             GameOver,
+            Logo,
             MainMenu,
             Settings
         }    

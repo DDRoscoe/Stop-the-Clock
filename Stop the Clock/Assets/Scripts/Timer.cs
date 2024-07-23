@@ -13,6 +13,7 @@ public class Timer : MonoBehaviour
     public float rotationSpeed;
     public float timer = 60f;
     public float colorChangeInterval;
+    public GameObject filter;
 
     private float colorTimer = 0f;
     private int intTimer;
@@ -75,8 +76,10 @@ public class Timer : MonoBehaviour
     IEnumerator DisplayTimesUp()
     {
         timesUpText.gameObject.SetActive(true);
+        filter.gameObject.SetActive(true);
         yield return new WaitForSeconds(2f);
         mainHandScript.cover.gameObject.SetActive(true);
         timesUpText.gameObject.SetActive(false);
+        filter.gameObject.SetActive(false);
     }
 }
