@@ -72,7 +72,7 @@ public class MainHand : MonoBehaviour
                 ChangeDirection();
                 audioManagerScript.PlaySFX(audioManagerScript.coin);
                 audioManagerScript.tickingSource.pitch += 0.03f;
-                emissionRate += 1f;
+                emissionRate += 2f;
                 emissionModule.rateOverTime = emissionRate;
                 comboAnim.SetTrigger("ComboHit");
             }
@@ -186,7 +186,7 @@ public class MainHand : MonoBehaviour
         score = scoreCalculatorScript.CalculateScore(score, combo);
         if (highestCombo < combo)
             highestCombo = combo;
-        if (combo == 7)
+        if (combo == 3)
             particleSystem.Play();
     }
 
