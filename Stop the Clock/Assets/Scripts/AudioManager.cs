@@ -46,4 +46,14 @@ public class AudioManager : MonoBehaviour
     {
         tickingSource.Stop();
     }
+
+    public void PlayButtonHover()
+    {
+        sfxSource.PlayOneShot(hoverButton);
+    }
+
+    public void PlayButtonPress()
+    {
+        sfxSource.PlayOneShot(buttonClick);
+    }
 }

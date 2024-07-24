@@ -186,7 +186,7 @@ public class MainHand : MonoBehaviour
         score = scoreCalculatorScript.CalculateScore(score, combo);
         if (highestCombo < combo)
             highestCombo = combo;
-        if (combo == 4)
+        if (combo == 7)
             particleSystem.Play();
     }
 
